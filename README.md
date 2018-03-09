@@ -1,5 +1,5 @@
 # C-progrsming
 
-> ·TTfish's C programming homework git storage
+> TTfish's C programming homework git storage
 
 
