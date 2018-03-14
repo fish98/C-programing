@@ -11,7 +11,7 @@ int a[10000]; || int * a = (int*)malloc(sizeof(int)*10000)
 struct fish{
     int value;
     node* next;
-}
+}node 
 struct fish a; || node * a = (node*)malloc(sizeof(node));
 a.value = 2
 a -> value = 1
