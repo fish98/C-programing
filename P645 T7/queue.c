@@ -78,7 +78,7 @@ void Enqueue(queueADT queue, void *obj)
        Error("Enqueue called on a full queue");
     }
     else{
-    queue->array[queue->(in == 11 ? (in -= 11): in++)] = obj;
+    queue->array[queue->(in == 10 ? (in -= 10): in++)] = obj;
     queue->len++;
     }
 }
@@ -96,7 +96,7 @@ void *Dequeue(queueADT queue)
 
     if (queue->len == 0) Error("Dequeue of empty queue");
     else{
-        result = queue->array[queue->out++];
+        result = queue->array[queue->(out % 10)++];
         queue->len--;
     }
     return (result);
