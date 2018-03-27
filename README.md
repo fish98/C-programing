@@ -1,5 +1,7 @@
 # C-programming
 
+<img src = "./Projects/Maze/reb.gif"></img>
+
 ## TTfish's C programming homework git storage
 
 ## Update on 2018.3.24 23:44
