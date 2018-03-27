@@ -13,6 +13,7 @@
 > Finish some questions on textbook("The art and science of C")
 >> Figure Q5 & Q10 in chapter Struct
 >> Question P645 T7
+>> Figure LinkList Problem together with T7
 
 ## Projects
 > Polynomial (Contributor: Maphilius)

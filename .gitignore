@@ -2,3 +2,4 @@ test.c
 fish.c
 fish.exe
 test.exe
+*.exe
