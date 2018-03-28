@@ -4,7 +4,7 @@
 
 ## TTfish's C programming homework git storage
 
-## Update on 2018.3.24 23:44
+* Update on 2018.3.24 23:44
 
 # Dir Introduction
 
@@ -21,4 +21,4 @@
 > Polynomial (Contributor: Maphilius)
 > Maze (Waiting to be done)
 
-## Remain to be continued......
+* Remain to be continued......
