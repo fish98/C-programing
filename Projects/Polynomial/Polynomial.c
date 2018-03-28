@@ -180,8 +180,6 @@ void operate(List* outlist, List* list1, List* list2)
 	printf("请输入需要操作的指令： (+ / - / * )\n");
 	char op;
 	
-	// operator 居然是一个保留词！！！ 
-	 
 	scanf("%c", &op);
 	while (op == 10){
 		scanf("%c", &op);
@@ -272,51 +270,49 @@ int main()
 	
 	// 定义三个链表 
 	
-	int n, i;
+	int n, i;     // for循环使用的操作变量 
 	
-	// for循环使用的操作变量 
-	
-	int co = 1, exp = 1;
-	
-	// 定义多项式的单个项的系数与指数 
+	int co = 1, exp = 1;       // 定义多项式的单个项的系数与指数 
 	
 	/* 初始化链表 */
 	
 	list1.head = list1.tail = NULL;
 	list2.head = list2.tail = NULL;
 	outlist.head = outlist.tail = NULL;
-	printf("输入多项式1：(格式：a b, 以0 0结束)\n");
 	
-	// 依次输入各项 
+    /* 获取多项式 1 */
 	
-	while (co || exp){
+	printf("输入多项式1的项数： \n");     // 首先获取多项式项数 
+	
+	scanf("%d",&n);
+	printf("输入多项式1： \n");         // 依次输入各项 
+	
+	for (i = 0; i < n; i++) {
 		scanf("%d %d", &co, &exp);
 		push(&list1, co, exp);
 	}
 	BubbleSort(list1.head);
 	merge(list1.head);
 	print(&list1);
-	printf("\n");
+	printf("\n");      // 不优雅的手动换行 
 	
-	// 不优雅的手动换行 
+	/* 获取多项式 2 */
 	
-	co = exp = 1;
-	printf("输入多项式2：(格式：a b, 以0 0结束)\n");
-	while (co || exp){
+	printf("多项式2的项数： \n");
+	scanf("%d",&n);
+	printf("输入多项式2： \n");
+	for (i = 0; i < n; i++) {
 		scanf("%d %d", &co, &exp);
 		push(&list2, co, exp);
 	}
 	BubbleSort(list2.head);
 	merge(list2.head);
 	print(&list2);
-	printf("\n");
-	
-	//不优雅的手动换行
+	printf("\n");           //不优雅的手动换行 
 	
 	/* 获取操作符号 */
 	
 	operate(&outlist, &list1, &list2);
 	print(&outlist);
-	system("pause");
-	return 0;
+	return 999;
 }
