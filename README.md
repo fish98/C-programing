@@ -22,3 +22,5 @@
 > Maze (Waiting to be done)
 
 * Remain to be continued......
+
+* Mozilla License
