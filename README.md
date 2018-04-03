@@ -23,4 +23,3 @@
 
 * Remain to be continued......
 
-* Mozilla License
