@@ -16,6 +16,7 @@
 >> Figure Q5 & Q10 in chapter Struct
 >> Question P645 T7
 >> Figure LinkList Problem together with T7
+>> Add some homework with Graphic_lib
 
 ## Projects
 > Polynomial (Contributor: Maphilius)
