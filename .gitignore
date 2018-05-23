@@ -3,3 +3,6 @@ fish.c
 fish.exe
 test.exe
 *.exe
+*.jpg
+*.bmp
+*.yuv
