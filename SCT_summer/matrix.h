@@ -3,16 +3,18 @@
 
 typedef struct matrix {
     double *data;
-    int line;
-    int width;
+    int row;
+    int col;
 } Matrix;
 
 void initMatrix(Matrix * M);
 
-// void getMatrix(Matrix1, Matrix2);
+void AddMatrix(Matrix * M1, Matrix * M2, Matrix * M3);
 
-// void addMatrix(Matrix1, Matrix2, Matrix3);
+void PrintMatrix(Matrix * M);
 
-// void plusMatrix(Matrix1, Matrix2, Matrix3);
+void MiltiplyMatrix(Matrix * M1, Matrix * M2, Matrix * M3);
+
+void FunctionMatrix(Matrix * M1, Matrix * M3);
 
 #endif
