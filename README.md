@@ -22,5 +22,8 @@
 > Polynomial (Contributor: Maphilius)
 > Maze (Waiting to be done)
 
+## SCT_summer
+> Projects in SCT summer course
+
 * Remain to be continued......
 
