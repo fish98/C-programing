@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #include "matrix.h"
-#include "matrix.c"
 
 void initMatrix(Matrix * M);
 

@@ -1,4 +1,7 @@
 #include "matrix.h"
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void initMatrix(Matrix * M){
     int i, row, col, area;
