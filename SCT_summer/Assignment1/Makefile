@@ -6,7 +6,7 @@ main : main.c matrix.o
 	echo -e "\nExcute main to Start\n"
 	rm matrix.o
 clean: 
-	rm matrix.o main
+	rm main
 
 
 

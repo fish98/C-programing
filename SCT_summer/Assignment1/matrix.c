@@ -1,7 +1,9 @@
-#include "matrix.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
+#include "matrix.h"
 
 void PrintMatrix(Matrix * M){
     int i, j;
@@ -31,8 +33,6 @@ void initMatrix(Matrix * M){
     for(i = 0; i< area; i++){
         scanf("%lf", M->data + i);
     }
-    printf("The Matrix is\n");
-    PrintMatrix(M);
 }
 
 void ReadMatrix(char * Filename, Matrix * M){
@@ -53,9 +53,6 @@ void ReadMatrix(char * Filename, Matrix * M){
     M->data = malloc(sizeof(double) * area);
 
     while(fscanf(fp, "%lf", M->data+prefix++)!= EOF);
-
-    printf("The Matrix is\n");
-    PrintMatrix(M);
 }
 
 void AddMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
@@ -65,7 +62,7 @@ void AddMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
 
     if (M1->col != M2->col || M1->row != M2 ->row){
         printf("Invalid Input of Matrix\n");
-        printf("Choose Operator (enter q for quit)\n");
+        printf("Choose Operator '+ or * or f' (enter q for quit)\n");
     } else{
 
     // Init M3
@@ -79,7 +76,7 @@ void AddMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
         }
     printf("Output for Add Operation\n");
     PrintMatrix(M3);
-    printf("Choose Operator (enter q for quit)\n");
+    printf("Choose Operator '+ or * or f' (enter q for quit)\n");
     }
 }
 
@@ -110,7 +107,7 @@ void MiltiplyMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
     }
     printf("Output for Miltiply Operation\n");
     PrintMatrix(M3);
-    printf("Choose Operator (enter q for quit)\n"); 
+    printf("Choose Operator '+ or * or f' (enter q for quit)\n"); 
 }
 
 void FunctionMatrix(Matrix * M1, Matrix * M3){
@@ -146,5 +143,5 @@ void FunctionMatrix(Matrix * M1, Matrix * M3){
     }
     printf("Output for Miltiply Operation\n");
     PrintMatrix(M3);
-    printf("Choose Operator (enter q for quit)\n"); 
+    printf("Choose Operator '+ or * or f' (enter q for quit)\n"); 
 }
