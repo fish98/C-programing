@@ -9,6 +9,8 @@ typedef struct matrix {
 
 void initMatrix(Matrix * M);
 
+void ReadMatrix(char* Filename, Matrix * M);
+
 void AddMatrix(Matrix * M1, Matrix * M2, Matrix * M3);
 
 void PrintMatrix(Matrix * M);

@@ -3,6 +3,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void PrintMatrix(Matrix * M){
+    int i, j;
+    for (i = 0; i < M ->col; i++){
+        for (j = 0; j < M->row; j++){
+            printf("%lf ", *(M->data+i*M->row + j));
+        }
+        printf("\n");
+    }
+}
+
 void initMatrix(Matrix * M){
     int i, row, col, area;
 
@@ -25,15 +35,41 @@ void initMatrix(Matrix * M){
     PrintMatrix(M);
 }
 
+void ReadMatrix(char * Filename, Matrix * M){
+
+    int i;
+
+    FILE * fp;
+
+    int area, prefix = 0;
+
+    fp = fopen(Filename, "r");
+
+    fscanf(fp, "%d", &M->row);
+    fscanf(fp, "%d", &M->col);
+
+    area = M->col * M->row;
+
+    M->data = malloc(sizeof(double) * area);
+
+    while(fscanf(fp, "%lf", M->data+prefix++)!= EOF);
+
+    printf("The Matrix is\n");
+    PrintMatrix(M);
+}
+
 void AddMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
     int i;
 
     // Judge First
+
     if (M1->col != M2->col || M1->row != M2 ->row){
         printf("Invalid Input of Matrix\n");
         printf("Choose Operator (enter q for quit)\n");
     } else{
+
     // Init M3
+
     M3->col = M1->col;
     M3->row = M1->row;
     M3->data = malloc(sizeof(double) * M3->col * M3->row);
@@ -51,11 +87,14 @@ void MiltiplyMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
     int i, j, k;
 
     // Judge First
+
     if (M1->row != M2->col){
         printf("Invalid Input of Matrix\n");
         printf("Choose Operator (enter q for quit)\n");
-    } else{
+    } else
+    {
     // Init M3
+
     M3->col = M1->col;
     M3->row = M2->row;
     M3->data = malloc(sizeof(double) * M3->col * M3->row);
@@ -75,7 +114,9 @@ void MiltiplyMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
 }
 
 void FunctionMatrix(Matrix * M1, Matrix * M3){
+
     // Init M3
+
     int i, power;
     M3->col = M1->col;
     M3->row = M1->row;
@@ -106,14 +147,4 @@ void FunctionMatrix(Matrix * M1, Matrix * M3){
     printf("Output for Miltiply Operation\n");
     PrintMatrix(M3);
     printf("Choose Operator (enter q for quit)\n"); 
-}
-
-void PrintMatrix(Matrix * M){
-    int i, j;
-    for (i = 0; i < M ->col; i++){
-        for (j = 0; j < M->row; j++){
-            printf("%lf ", *(M->data+i*M->row + j));
-        }
-        printf("\n");
-    }
 }

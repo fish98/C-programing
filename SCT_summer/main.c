@@ -4,8 +4,6 @@
 
 #include "matrix.h"
 
-void initMatrix(Matrix * M);
-
 int main(){
 
     int i;
@@ -15,8 +13,10 @@ int main(){
     Matrix * M2 = malloc(sizeof(Matrix));
     Matrix * M3 = malloc(sizeof(Matrix));
     
-    initMatrix(M1);
-    initMatrix(M2);
+    // initMatrix(M1);
+    // initMatrix(M2);
+    ReadMatrix("./matrix1", M1);
+    ReadMatrix("./matrix2", M2);
 
     printf("Choose Operator (enter q for quit)\n");
 
