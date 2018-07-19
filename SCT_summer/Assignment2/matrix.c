@@ -56,13 +56,100 @@ void ReadMatrix(char * Filename, Matrix * M){
     while(fscanf(fp, "%lf", M->data+prefix++)!= EOF);
 }
 
-void MPI_AddMatrix(Matrix * M1, Matrix * M2){
+void MPIAddMatrix(Matrix * M1, Matrix * M2, Matrix * M3,int world_rank, int world_size){
+
+    int Tmpsize = M1->col * M1->row / world_size; 
+
+    Matrix * Tmp_M1 = malloc(sizeof(Matrix));
+    Matrix * Tmp_M2 = malloc(sizeof(Matrix));
+    Matrix * Tmp_M3 = malloc(sizeof(Matrix));
+
+    if(world_rank == 0){
+        M3->col = M1->col;
+        M3->row = M1->row;
+        M3->data = malloc(sizeof(double) * M3->col * M3->row);
+    }
+    Tmp_M1->row = M1->row;
+    Tmp_M1->col = M1 ->col / world_size;
+    Tmp_M1->data = malloc(sizeof(double) * Tmpsize);
+    Tmp_M2->row = M2->row;
+    Tmp_M2->col = M2 ->col / world_size;
+    Tmp_M2->data = malloc(sizeof(double) * Tmpsize);
+
+    MPI_Scatter(M1->data, Tmpsize, MPI_DOUBLE, Tmp_M1->data,
+        Tmpsize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Scatter(M2->data+Tmpsize*world_rank, Tmpsize, MPI_DOUBLE, Tmp_M2->data,
+         Tmpsize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     
+    AddMatrix(Tmp_M1, Tmp_M2, Tmp_M3);
 
-
-
+    MPI_Gather(Tmp_M3->data, Tmpsize, MPI_DOUBLE, M3->data, Tmpsize, MPI_DOUBLE, 0,
+            MPI_COMM_WORLD);
 }
 
+void MPIMultiplyMatrix(Matrix * M1, Matrix * M2, Matrix * M3,int world_rank, int world_size){
+
+    int Tmpsize = M1->col * M1->row / world_size;
+
+    Matrix * Tmp_M1 = malloc(sizeof(Matrix));
+    Matrix * Tmp_M2 = malloc(sizeof(Matrix));
+    Matrix * Tmp_M3 = malloc(sizeof(Matrix));
+
+    if(world_rank == 0){
+        M3->col = M1->col;
+        M3->row = M2->row;
+        M3->data = malloc(sizeof(double) * M3->col * M3->row);
+    }
+
+    Tmp_M1->row = M1->row;
+    Tmp_M1->col = M1 ->col / world_size;
+    Tmp_M1->data = malloc(sizeof(double) * Tmpsize);
+
+    TransposeMatrix(M2);
+
+    Tmp_M2->row = M2->row;
+    Tmp_M2->col = M2 ->col / world_size;
+    Tmp_M2->data = malloc(sizeof(double) * Tmpsize);
+
+    MPI_Scatter(M1->data, Tmpsize, MPI_DOUBLE, Tmp_M1->data,
+        Tmpsize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Scatter(M2->data+Tmpsize*world_rank, Tmpsize, MPI_DOUBLE, Tmp_M2->data,
+         Tmpsize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    TransposeMatrix(Tmp_M2);
+    
+    MultiplyMatrix(Tmp_M1, Tmp_M2, Tmp_M3);
+
+    MPI_Gather(Tmp_M3->data, Tmpsize, MPI_DOUBLE, M3->data, Tmpsize, MPI_DOUBLE, 0,
+            MPI_COMM_WORLD);
+    
+    TransposeMatrix(M2);
+}
+
+void MPIFunctionMatrix(Matrix * M1, Matrix * M3, int world_rank, int world_size){
+
+    int Tmpsize = M1->col * M1->row / world_size; 
+
+    Matrix * Tmp_M1 = malloc(sizeof(Matrix));
+    Matrix * Tmp_M3 = malloc(sizeof(Matrix));
+
+    if(world_rank == 0){
+        M3->col = M1->col;
+        M3->row = M1->row;
+        M3->data = malloc(sizeof(double) * M3->col * M3->row);
+    }
+    Tmp_M1->row = M1->row;
+    Tmp_M1->col = M1 ->col / world_size;
+    Tmp_M1->data = malloc(sizeof(double) * Tmpsize);
+
+    MPI_Scatter(M1->data, Tmpsize, MPI_DOUBLE, Tmp_M1->data,
+        Tmpsize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    FunctionMatrix(Tmp_M1, Tmp_M3);
+
+    MPI_Gather(Tmp_M3->data, Tmpsize, MPI_DOUBLE, M3->data, Tmpsize, MPI_DOUBLE, 0,
+            MPI_COMM_WORLD);
+}
 
 void AddMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
     int i;
@@ -83,74 +170,79 @@ void AddMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
     for(i = 0; i<M3->col * M3->row; i++){
         *(M3->data+i) = *(M1->data+i)+*(M2->data+i);
         }
-    // printf("Outn put for Add Operation\n");
-    // PrintMatrix(M3);
-    // printf("Choose Operator '+ or * or f' (enter q for quit)\n");
     }
 }
 
-// void MPI_MiltiplyMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
-//     int i, j, k;
+void MultiplyMatrix(Matrix * M1, Matrix * M2, Matrix * M3){
+    int i, j, k;
 
-//     // Judge First
+    // Judge First
 
-//     if (M1->row != M2->col){
-//         printf("Invalid Input of Matrix\n");
-//         printf("Choose Operator (enter q for quit)\n");
-//     } else
-//     {
-//     // Init M3
+    if (M1->row != M2->col){
+        printf("Inasrgaegargargawrgwrgawrgwrgawgx\n");
+    } else
+    {
+    // Init M3
 
-//     M3->col = M1->col;
-//     M3->row = M2->row;
-//     M3->data = malloc(sizeof(double) * M3->col * M3->row);
-//     }
-//     for(i = 0; i< M3->col; i++){
-//         for(j = 0; j< M3-> row;j++){
-//             int result = 0;
-//             for(k = 0; k < M1->row; k++){
-//                result += *(M1->data+i*M1->row+k) * *(M2->data+k*M2->row+j);
-//             }
-//             *(M3->data+i*M3->row+j) = result;
-//         }
-//     }
-//     printf("Output for Miltiply Operation\n");
-//     PrintMatrix(M3);
-//     printf("Choose Operator '+ or * or f' (enter q for quit)\n"); 
-// }
+    M3->col = M1->col;
+    M3->row = M2->row;
+    M3->data = malloc(sizeof(double) * M3->col * M3->row);
+    }
+    for(i = 0; i< M3->col; i++){
+        for(j = 0; j< M3-> row;j++){
+            int result = 0;
+            for(k = 0; k < M1->row; k++){
+               result += *(M1->data+i*M1->row+k) * *(M2->data+k*M2->row+j);
+            }
+            *(M3->data+i*M3->row+j) = result;
+        }
+    }
+}
 
-// void MPI_FunctionMatrix(Matrix * M1, Matrix * M3){
+void FunctionMatrix(Matrix * M1, Matrix * M3){
 
-//     // Init M3
+    // Init M3
 
-//     int i, power;
-//     M3->col = M1->col;
-//     M3->row = M1->row;
-//     M3->data = malloc(sizeof(double) * M3->col * M3->row);
-//     for(i = 0; i < M3->col * M3->row; i++){
-//             *(M3->data+i) = *(M1->data+i);
-//         }
+    int i, power;
+    M3->col = M1->col;
+    M3->row = M1->row;
+    M3->data = malloc(sizeof(double) * M3->col * M3->row);
+    for(i = 0; i < M3->col * M3->row; i++){
+            *(M3->data+i) = *(M1->data+i);
+        }
+    
+    power = 2;
 
-//     printf("enter the power of the operation element\n");
+    if(power > 0){
+        for(i = 0; i < M3->col * M3->row; i++){
+            *(M3->data+i) = pow(*(M3->data+i), power);
+        }
+    }
+    else if(power == 0){
+         for(i = 0; i < M3->col * M3->row; i++){
+            *(M3->data+i) = 1;
+        }
+    }
+    else {
+        power = -power;
+        for(i = 0; i < M3->col * M3->row; i++){
+            *(M3->data+i) = 1 / pow(*(M3->data+i), power);
+        }
+    }
+}
 
-//     scanf("%d", &power);
-//     if(power > 0){
-//         for(i = 0; i < M3->col * M3->row; i++){
-//             *(M3->data+i) = pow(*(M3->data+i), power);
-//         }
-//     }
-//     else if(power == 0){
-//          for(i = 0; i < M3->col * M3->row; i++){
-//             *(M3->data+i) = 1;
-//         }
-//     }
-//     else {
-//         power = -power;
-//         for(i = 0; i < M3->col * M3->row; i++){
-//             *(M3->data+i) = 1 / pow(*(M3->data+i), power);
-//         }
-//     }
-//     printf("Output for Miltiply Operation\n");
-//     PrintMatrix(M3);
-//     printf("Choose Operator '+ or * or f' (enter q for quit)\n"); 
-// }
+void TransposeMatrix(Matrix * M){
+     double tmp;
+     int haha;
+     int i, j;
+     for(i=0;i<M->row;i++){
+        for(j=i;j<M->col;j++){
+            tmp = *(M->data+M->row*i+j);
+            *(M->data+M->row*i+j) = *(M->data+M->row*j+i);
+            *(M->data+M->row*j+i) = tmp;
+        }
+     }
+     haha = M->col;
+     M->col = M->row;
+     M->row = haha;
+}
