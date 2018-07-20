@@ -8,7 +8,6 @@
 
 int main(int argc, char** argv){
 
-    // char operator;
     clock_t start, finish;
     double time;
 
@@ -26,61 +25,36 @@ int main(int argc, char** argv){
 
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-
-
-    // printf("")
-    // printf("Choose Operator : '+ or * or f'(enter q for quit)\n");
-
-    // scanf("%c", &operator);
-    // while(operator != 'q'){
-    //     switch(operator){
-
-    //     case '+': 
-            //start = clock(); 
+ 
+            start = clock(); 
             MPIAddMatrix(M1, M2, M3, world_rank, world_size);
-            //finish  = clock();
+            finish  = clock();
+
             if(world_rank == 0){
+                printf("Use %f Seconds To Finish Add Operation \n", (double)(finish-start)/1000);
                 printf("The result of the add operation is:\n");
                 PrintMatrix(M3);
             }
 
+            printf("\n");
             MPI_Barrier(MPI_COMM_WORLD);
-
+            start = clock(); 
             MPIMultiplyMatrix(M1, M2, M3, world_rank, world_size);
-
+            finish  = clock();
             if(world_rank == 0){
+                printf("Use %f Seconds To Finish Add Operation \n", (double)(finish-start)/1000);
                 printf("The result of the multiply operation is:\n");
                 PrintMatrix(M3);
             }
-
+            printf("\n");
             MPI_Barrier(MPI_COMM_WORLD);
-
+            start = clock(); 
             MPIFunctionMatrix(M1, M3, world_rank, world_size);
-
+            finish  = clock();
             if(world_rank == 0){
+                printf("Use %f Seconds To Finish Add Operation \n", (double)(finish-start)/1000);
                 printf("The result of the power operation is:\n");
                 PrintMatrix(M3);
             }
-
-            //printf("Use %f Seconds To Finish Add Operation\n", (double)(finish-start)/1000);
-            // break;
-        
-        // case '*': start = clock(); 
-        //     MiltiplyMatrix(M1, M2, M3); 
-        //     finish  = clock();
-        //     printf("Use %f Seconds To Finish Multiply Operation\n", (double)(finish-start)/1000);
-        // break;
-
-        // case 'f': start = clock(); 
-        // FunctionMatrix(M1, M3); 
-        // finish  = clock();
-        // printf("Use %f Seconds To Finish MeanWise Operation\n", (double)(finish-start)/1000);
-        // break;  
-
-    //     default : break;
-    // }
-    //     scanf("%c", &operator);
-    //     }
-    
     MPI_Finalize();
 }

@@ -113,6 +113,7 @@ void MPIMultiplyMatrix(Matrix * M1, Matrix * M2, Matrix * M3,int world_rank, int
 
     MPI_Scatter(M1->data, Tmpsize, MPI_DOUBLE, Tmp_M1->data,
         Tmpsize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
     MPI_Scatter(M2->data+Tmpsize*world_rank, Tmpsize, MPI_DOUBLE, Tmp_M2->data,
          Tmpsize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
@@ -232,17 +233,30 @@ void FunctionMatrix(Matrix * M1, Matrix * M3){
 }
 
 void TransposeMatrix(Matrix * M){
-     double tmp;
-     int haha;
-     int i, j;
-     for(i=0;i<M->row;i++){
-        for(j=i;j<M->col;j++){
-            tmp = *(M->data+M->row*i+j);
-            *(M->data+M->row*i+j) = *(M->data+M->row*j+i);
-            *(M->data+M->row*j+i) = tmp;
+
+    Matrix * TmpMatrix = malloc(sizeof(Matrix));
+
+    int area = M->col * M->row;
+    int i, j;
+
+    TmpMatrix->data = malloc(sizeof(double) * area);
+
+    TmpMatrix->row = M->col;
+    TmpMatrix->col = M->row;
+
+    for(i=0;i<TmpMatrix->col;i++){
+        for(j=0;j<TmpMatrix->row;j++){
+            *(TmpMatrix->data+TmpMatrix->row*i+j) = *(M->data+M->row*j+i);
         }
-     }
-     haha = M->col;
-     M->col = M->row;
-     M->row = haha;
+    }
+   
+   M->row = TmpMatrix->row;
+   M->col = TmpMatrix->col;
+
+   for(i=0;i<M->col;i++){
+       for(j=0;j<M->row;j++){
+           *(M->data+M->row*i+j) = *(TmpMatrix->data+TmpMatrix->row*i+j);
+       }
+   }
+    free(TmpMatrix);
 }

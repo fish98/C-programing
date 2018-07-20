@@ -144,4 +144,64 @@ void FunctionMatrix(Matrix * M1, Matrix * M3){
     printf("Output for Miltiply Operation\n");
     PrintMatrix(M3);
     printf("Choose Operator '+ or * or f' (enter q for quit)\n"); 
+
+    void FunctionMatrix(Matrix * M1, Matrix * M3){
+
+    // Init M3
+
+    int i, power;
+    M3->col = M1->col;
+    M3->row = M1->row;
+    M3->data = malloc(sizeof(double) * M3->col * M3->row);
+    for(i = 0; i < M3->col * M3->row; i++){
+            *(M3->data+i) = *(M1->data+i);
+        }
+    
+    power = 2;
+
+    if(power > 0){
+        for(i = 0; i < M3->col * M3->row; i++){
+            *(M3->data+i) = pow(*(M3->data+i), power);
+        }
+    }
+    else if(power == 0){
+         for(i = 0; i < M3->col * M3->row; i++){
+            *(M3->data+i) = 1;
+        }
+    }
+    else {
+        power = -power;
+        for(i = 0; i < M3->col * M3->row; i++){
+            *(M3->data+i) = 1 / pow(*(M3->data+i), power);
+        }
+    }
+}
+
+void TransposeMatrix(Matrix * M){
+
+    Matrix * TmpMatrix = malloc(sizeof(Matrix));
+
+    int area = M->col * M->row;
+    int i, j;
+
+    TmpMatrix->data = malloc(sizeof(double) * area);
+
+    TmpMatrix->row = M->col;
+    TmpMatrix->col = M->row;
+
+    for(i=0;i<TmpMatrix->col;i++){
+        for(j=0;j<TmpMatrix->row;j++){
+            *(TmpMatrix->data+TmpMatrix->row*i+j) = *(M->data+M->row*j+i);
+        }
+    }
+   
+   M->row = TmpMatrix->row;
+   M->col = TmpMatrix->col;
+
+   for(i=0;i<M->col;i++){
+       for(j=0;j<M->row;j++){
+           *(M->data+M->row*i+j) = *(TmpMatrix->data+TmpMatrix->row*i+j);
+       }
+   }
+    free(TmpMatrix);
 }
