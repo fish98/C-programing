@@ -1,0 +1,4 @@
+cpu01  slots=2
+cpu02  slots=2
+gpu02  slots=2
+gpu03  slots=2
