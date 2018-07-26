@@ -1,14 +1,14 @@
-# C-programming
+# C Programm Tasks
 
 <img src = "./Projects/Maze/reb.gif"></img>
 
-## TTfish's C programming homework git storage
+## TTfish's Projects && Homework in C
 
-* Update on 2018.3.24 23:44
+* Update on 2018.7.27 00:26
 
 # Dir Introduction
 
-## Program Files On Book
+## Program Files From Book
 > push all the code from text book("The art and science of C")
 
 ## Questions
@@ -23,7 +23,7 @@
 > Maze (Waiting to be done)
 
 ## SCT_summer
-> Projects in SCT summer course
+> Projects in SCT summer course(Matrix Operation)
 
 * Remain to be continued......
 
